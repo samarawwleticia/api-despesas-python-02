@@ -1,0 +1,114 @@
+/* static/index.css */
+
+/* Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html, body {
+    height: 100%;
+  }
+  
+  body.login-page {
+    font-family: 'Montserrat', sans-serif;
+    color: #004D66;
+  
+    /* Usa bg.png dentro de static/img/ */
+    background: url('img/bg.png') no-repeat center top;
+    background-size: cover;
+  }
+  
+  /* Container principal */
+  .login-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 100%;
+    padding-top: 8rem;    /* desce o conteúdo até abaixo do logo/flores */
+    padding-left: 6rem;   /* afasta do canto esquerdo */
+  }
+  
+  /* Coluna esquerda */
+  .login-left {
+    width: 30%;           /* cerca de 1/3 da largura da tela */
+  }
+  
+  /* Título */
+  .login-left h1 {
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Botão rosa “Login” */
+  .btn-login {
+    display: inline-block;
+    background-color: #F57DD2;
+    color: #fff;
+    padding: 0.5rem 2rem;
+    border-radius: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    cursor: default;
+    user-select: none;
+  }
+  
+  /* Formulário */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  /* Labels e inputs */
+  .form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .form-group input {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.6rem 1rem;
+    border: 1px solid #C7C7C7;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  /* Checkbox “Lembrar‑me” */
+  .form-group.remember {
+    display: flex;
+    align-items: left;
+    gap: 0.0 rem;
+    margin-top: -0.5rem;   
+  }
+  
+  /* Botão “Entrar” */
+  .btn-submit {
+    width: fit-content;
+    margin-top: 1rem;
+    background-color: #FFFFFF;
+    border: 2px solid #004D66;
+    color: #004D66;
+    padding: 0.8rem 2rem;
+    border-radius: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .btn-submit:hover {
+    background-color: #E6F4F8;
+  }
+  
+  /* A área direita fica oculta pois o bg já traz a ilustração */
+  .login-right {
+    display: none;
+  }
+
+  .form-group.remember label {
+    margin: 0;              /* remove o espaçamento vertical que “desalinha” */
+    font-size: 0.95rem;
+  }
+  
