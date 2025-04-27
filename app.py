@@ -37,18 +37,8 @@ def login():
 
     return render_template('login.html', form=form)
 
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
-
-@app.route('/')
-@login_required
-def index():
-    return 'Você está na página inicial!'
-
-    if __name__ == '__main__':
-        with app.app_context():
-            db.create_all()  # cria tabelas no SQLite (não alterar)
-app.run(debug=True)
+# Roda o app
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()  # Cria as tabelas se ainda não existirem
+    app.run(debug=True)
