@@ -1,0 +1,22 @@
+/* Lógico_1: */
+
+CREATE TABLE User (
+    id INTEGER PRIMARY KEY UNIQUE,
+    nome VARCHAR,
+    email VARCHAR,
+    senha VARCHAR
+);
+
+CREATE TABLE Despesa (
+    id_despesa INTEGER PRIMARY KEY UNIQUE,
+    titulo VARCHAR,
+    valor INTEGER,
+    dataCompra DATE,
+    categoria VARCHAR,
+    fk_User_id INTEGER
+);
+ 
+ALTER TABLE Despesa ADD CONSTRAINT FK_Despesa_2
+    FOREIGN KEY (fk_User_id)
+    REFERENCES User (id)
+    ON DELETE CASCADE;
