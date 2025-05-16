@@ -1,20 +1,21 @@
-from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+from extensions import db
 
-db = SQLAlchemy()
+class User(db.Model, UserMixin):
+    __tablename__ = 'users'
 
-class User(db.Model):
-    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    email = db.Column(db.String(80), nullable=True)
-    senha = db.Column(db.String(13), nullable=True)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
 
-class Despesa(db.Model):
-    __tablename__ = 'despesa'
-    idDespesa = db.Column(db.Integer, primary_key=True)
-    titulo = db.Column(db.Text, nullable=False)
-    valor = db.Column(db.Float, nullable=False)
-    categoria = db.Column(db.Text, nullable=False)
-    dataCompra = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship("User", backref=db.backref("despesas", lazy=True))
+    def set_password(self, raw_password: str):
+        """Gera o hash da senha e salva em self.password."""
+        self.password = generate_password_hash(raw_password)
+
+    def check_password(self, raw_password: str) -> bool:
+        """Compara raw_password com o hash salvo."""
+        return check_password_hash(self.password, raw_password)
+
+    def __repr__(self):
+        return f'<User {self.email}>'

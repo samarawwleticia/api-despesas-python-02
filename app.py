@@ -1,35 +1,44 @@
-from flask import Flask, Response, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-from models import db, User, Despesa  # importa o db e as classes do models.py
-import json
+from flask               import Flask, render_template, redirect, url_for, flash, request
+from werkzeug.security   import check_password_hash
+from flask_login         import login_user, logout_user, login_required, current_user
+
+from extensions          import db, login_manager
+from forms               import LoginForm
+from models              import User
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///api.db' # define url do banco de dados
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db.init_app(app)  # inicializa o db 
+# Configurações
+app.config['SECRET_KEY'] = '0000'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqlite.db'
 
+# Inicializa extensões
+db.init_app(app)                    # liga o SQLAlchemy à sua app
+login_manager.init_app(app)         # liga o LoginManager à sua app
+login_manager.login_view = 'login'  # type: ignore[attr-defined]
 
-@app.route("/")
-def home():
-    return "Olá, Flask!"
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    # Se já estiver logado, vai direto para a página principal
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember.data)
+            return redirect(url_for('index'))
+        flash('E‑mail ou senha incorretos.', 'danger')
+
+    return render_template('login.html', form=form)
+
+# Roda o app
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
-    app.run(debug=True)
-
-
-# select usuarios
-@app.route('/usuarios', methods=["GET"])
-def select_users():
-    users_classe = User.query.all()
-    print(users_classe)
-
-    return jsonify([{"id": u.id, "name": u.name, "email": u.email} for u in users])
-
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
+        db.create_all()  # Cria as tabelas se ainda não existirem
     app.run(debug=True)

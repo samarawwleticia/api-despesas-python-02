@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Controle de Despesas</title>
+  <!-- Só o link pro seu CSS externo -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body class="login-page">
+  <div class="login-container">
+    
+    <!-- ESQUERDA: texto + formulário -->
+    <div class="login-left">
+      <h1>O controle dos seus gastos<br>sempre acessível!</h1>
+
+      <form action="{{ url_for('login') }}" method="post" class="login-form">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          <label for="email">E‑mail:</label>
+          {{ form.email(id="email", placeholder="seu@email.com") }}
+        </div>
+
+        <div class="form-group">
+          <label for="password">Senha:</label>
+          {{ form.password(id="password", placeholder="••••••••") }}
+        </div>
+
+        <div class="form-group remember">
+          {{ form.remember(id="remember") }}
+          <label for="remember">Lembrar‑me</label>
+        </div>
+
+        <button type="submit" class="btn-submit">Entrar</button>
+      </form>
+    </div>
+
+    <!-- DIREITA: vazio, pois o bg.png já inclui a ilustração -->
+    <div class="login-right"></div>
+
+  </div>
+</body>
+</html>
